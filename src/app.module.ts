@@ -7,7 +7,6 @@ import { EmailModule } from './email/email.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { SubscriberModule } from './subscriber/subscriber.module';
 
 @Module({
   imports: [
