@@ -27,10 +27,6 @@ export class UserLoginOutput {
 
   @Expose()
   @ApiProperty()
-  businessRole: string;
-
-  @Expose()
-  @ApiProperty()
   isActive: boolean;
 
   @Expose()
@@ -39,23 +35,7 @@ export class UserLoginOutput {
 
   @Expose()
   @ApiProperty()
-  googleId: string;
-
-  @Expose()
-  @ApiProperty()
-  microsoftId: string;
-
-  @Expose()
-  @ApiProperty()
-  workspaceUrl: string;
-
-  @Expose()
-  @ApiProperty()
   token: AuthTokenOutput;
-
-  @Expose()
-  @ApiProperty()
-  profileImage: string;
 
   @Expose()
   @ApiProperty()
@@ -66,13 +46,8 @@ export class UserLoginOutput {
     this.email = user.email;
     this.firstName = user.firstName;
     this.lastName = user.lastName;
-    this.businessRole = user.businessRole;
     this.isActive = user.isActive;
     this.isEmailVerified = user.isEmailVerified;
-    this.googleId = user.googleId;
-    this.microsoftId = user.microsoftId;
-    this.profileImage = user.profileImage;
-    this.workspaceUrl = null;
     this.passwordChangedAt = user.passwordChangedAt;
   }
 }
@@ -82,11 +57,7 @@ export class UserOutput extends UserLoginOutput {
     super(user);
     this.workExperience = null;
     this.employeeId = null;
-    this.department = null;
-    this.designation = null;
-    this.invitationStatus = null;
     this.role = null;
-    this.getSignedUrl = null;
     this.isActive = null;
   }
 
@@ -100,20 +71,5 @@ export class UserOutput extends UserLoginOutput {
 
   @Expose()
   @ApiProperty()
-  department: object;
-
-  @Expose()
-  @ApiProperty()
-  designation: object;
-
-  @Expose()
-  @ApiProperty()
-  invitationStatus: string;
-
-  @Expose()
-  @ApiProperty()
   role: object;
-
-  @ApiProperty()
-  getSignedUrl: string;
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserInput } from './dto/user-create-input.dto';
 import { plainToClass } from 'class-transformer';
 import { User } from './entities/user.entity';
@@ -8,6 +8,7 @@ import { OtpRepository } from './repositories/otp.repository';
 import { PassResetRepository } from './repositories/passreset.repository';
 import { Otp } from 'src/auth/entities/otp.entity';
 import { PasswordReset } from 'src/auth/entities/passwordreset.entity';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -30,7 +31,7 @@ export class UserService {
     return userItem;
   }
 
-  async sendOTP(user: User): Promise<number> {
+  async createOTP(user: User): Promise<number> {
     // Generate the OTP and send it to the user's email address
     const generatedOtp = this.generateOtp();
 
@@ -84,6 +85,22 @@ export class UserService {
     return Math.floor(100000 + random * 900000);
   }
 
+  async validateUsernamePassword(
+    ctx: any,
+    email: string,
+    pass: string,
+  ): Promise<User> {
+    const user: User = await this.repository.findOne({ where: { email } });
+    if (!user) throw new UnauthorizedException();
+
+    const match = await compare(pass, user.password);
+    if (!match) throw new UnauthorizedException();
+
+    return plainToClass(User, user, {
+      excludeExtraneousValues: true,
+    });
+  }
+
   // Get User By Email
   async getUserByEmail(email: string): Promise<User> {
     return await this.repository.getUserByEmail(email);
@@ -99,6 +116,14 @@ export class UserService {
     return plainToClass(User, user, {
       excludeExtraneousValues: true,
     });
+  }
+
+  async getUserByRefreshToken(refreshToken: string) {
+    return await this.repository.getUserBYRefreshToken(refreshToken);
+  }
+
+  async updateUserDetail(user: User) {
+    return await this.repository.save(user);
   }
 
   // Update User
