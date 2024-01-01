@@ -46,24 +46,12 @@ export class User {
   role: string;
 
   @ApiProperty()
-  @Column({ nullable: true, name: 'business_role' })
-  businessRole: string;
-
-  @ApiProperty()
   @Column({ nullable: true, name: 'is_active', default: false })
   isActive: boolean;
 
   @ApiProperty()
   @Column({ nullable: true, name: 'is_email_verified', default: false })
   isEmailVerified: boolean;
-
-  @ApiProperty()
-  @Column({ nullable: true, name: 'google_id' })
-  googleId: string;
-
-  @ApiProperty()
-  @Column({ nullable: true, name: 'microsoft_id' })
-  microsoftId: string;
 
   @OneToMany(() => Otp, (otp) => otp.user)
   otp: Otp[];
@@ -83,10 +71,6 @@ export class User {
 
   @Column('uuid', { name: 'updated_by', nullable: true, default: null })
   updatedBy: string;
-
-  @ApiProperty()
-  @Column({ nullable: true, name: 'profile_image' })
-  profileImage: string;
 
   @ApiProperty()
   @Column({ name: 'password_changed_at', nullable: true })

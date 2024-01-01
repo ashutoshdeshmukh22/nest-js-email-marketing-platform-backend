@@ -184,7 +184,7 @@ export class AuthService {
   async verifyOtp(ctx: any, input: OtpInput, res: Response): Promise<any> {
     // Get the user from db
     const user = await this.userService.getUserByEmail(ctx.user.email);
-
+    console.log(user);
     if (!user) {
       throw new NotFoundException(ERROR_CODES.USER_NOT_FOUND);
     }
@@ -197,15 +197,18 @@ export class AuthService {
       .where('user.id = :userId', { userId })
       .getOne();
 
+    console.log(otp);
+
     if (!otp) {
       res.status(HttpStatus.NOT_FOUND).json({
         message: ERROR_CODES.OTP_NOT_FOUND,
       });
       return;
     }
-
+    console.log(otp.otp != input.otp);
+    console.log(otp.otp, ' = ', input.otp);
     // Check Otp
-    if (otp.otp !== input.otp) {
+    if (otp.otp != input.otp) {
       res.status(HttpStatus.UNAUTHORIZED).json({
         message: ERROR_CODES.INCORRECT_OTP,
       });
@@ -396,6 +399,7 @@ export class AuthService {
 
     res.status(HttpStatus.CREATED).json({
       message: SUCCESS_CODES.OTP_SENT,
+      updatedOtp,
     });
   }
 

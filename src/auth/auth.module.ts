@@ -7,6 +7,7 @@ import { UserModule } from 'src/user/user.module';
 @Module({
   imports: [
     JwtModule.register({
+      global: true,
       secret: process.env.JWT_SECRET, // Replace with your own secret key
       signOptions: {
         expiresIn: process.env.JWT_TOKEN_EXPIRES_IN, // Set the token expiration time

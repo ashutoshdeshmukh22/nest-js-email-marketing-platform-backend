@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CampaignModule } from './campaign/campaign.module';
@@ -10,6 +10,8 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { JwtMiddleware } from './shared/middlewares/jwt.middleware';
+import { LoggerMiddleware } from './shared/middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -37,4 +39,22 @@ import { JwtService } from '@nestjs/jwt';
   controllers: [AppController],
   providers: [AppService, JwtService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+
+    // consumer
+    //   .apply(JwtMiddleware)
+    //   .exclude(
+    //     `${process.env.PREFIX}/auth/register`,
+    //     `${process.env.PREFIX}/auth/login`,
+    //     `${process.env.PREFIX}/auth/forgot-password`,
+    //     `${process.env.PREFIX}/auth/resend-link`,
+    //     `${process.env.PREFIX}/auth/reset-password`,
+    //     `${process.env.PREFIX}/auth/refresh-token`,
+    //     `${process.env.PREFIX}/subscriber/subscribe`,
+    //     `${process.env.PREFIX}/subscriber/unsubscribe`,
+    //   )
+    //   .forRoutes('*');
+  }
+}

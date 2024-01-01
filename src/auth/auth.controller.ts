@@ -66,7 +66,7 @@ export class AuthController {
     @Res() res: Response,
     @Body() credential: LoginInput,
   ) {
-    // return await this.authService.login(res, ctx, credential);
+    return await this.authService.login(res, ctx, credential);
   }
 
   // Register
@@ -97,7 +97,7 @@ export class AuthController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    // return await this.authService.register(res, ctx, input);
+    return await this.authService.register(res, ctx, input);
   }
 
   // Verify otp
@@ -120,7 +120,7 @@ export class AuthController {
     description: `${ERROR_CODES.INCORRECT_OTP} / ${ERROR_CODES.OTP_EXPIRED}`,
   })
   async verify(@Req() ctx: any, @Body() input: OtpInput, @Res() res: Response) {
-    // return await this.authService.verifyOtp(ctx, input, res);
+    return await this.authService.verifyOtp(ctx, input, res);
   }
 
   // Resend OTP
@@ -138,7 +138,7 @@ export class AuthController {
     description: `${ERROR_CODES.USER_NOT_FOUND}`,
   })
   async resendOtp(@Req() ctx: any, @Res() res: Response) {
-    // return await this.authService.resendOtp(ctx, res);
+    return await this.authService.resendOtp(ctx, res);
   }
 
   // Forgot Password
@@ -158,7 +158,7 @@ export class AuthController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    // return await this.authService.forgotPassword(input, req, res);
+    return await this.authService.forgotPassword(input, req, res);
   }
 
   @Post('resend-link')
@@ -177,7 +177,7 @@ export class AuthController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    // return await this.authService.forgotPassword(input, req, res);
+    return await this.authService.forgotPassword(input, req, res);
   }
 
   // Forgot Password
@@ -203,29 +203,29 @@ export class AuthController {
     @Res() res: Response,
     @Query('token') resetToken: string,
   ) {
-    // return await this.authService.resetPassword(input, req, res, resetToken);
+    return await this.authService.resetPassword(input, req, res, resetToken);
   }
 
   // Refresh Token
-  // @Post('refresh-token')
-  // @ApiOperation({
-  //   summary: 'Refresh access token API',
-  // })
-  // @ApiResponse({
-  //   status: HttpStatus.OK,
-  //   type: SwaggerBaseApiResponse(AuthTokenOutput),
-  // })
-  // @ApiResponse({
-  //   status: HttpStatus.UNAUTHORIZED,
-  //   type: BaseApiErrorResponse,
-  // })
-  // @HttpCode(HttpStatus.OK)
-  // @UseInterceptors(ClassSerializerInterceptor)
-  // async refreshToken(
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   @Body() credential: RefreshTokenInput,
-  // ): Promise<BaseApiResponse<AuthTokenOutput>> {
-  //   const authToken = await this.authService.refreshToken(credential);
-  //   return { data: authToken };
-  // }
+  @Post('refresh-token')
+  @ApiOperation({
+    summary: 'Refresh access token API',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: SwaggerBaseApiResponse(AuthTokenOutput),
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    type: BaseApiErrorResponse,
+  })
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async refreshToken(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Body() credential: RefreshTokenInput,
+  ): Promise<BaseApiResponse<AuthTokenOutput>> {
+    const authToken = await this.authService.refreshToken(credential);
+    return { data: authToken };
+  }
 }

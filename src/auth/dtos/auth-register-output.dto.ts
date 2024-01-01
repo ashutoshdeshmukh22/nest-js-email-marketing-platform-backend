@@ -30,27 +30,11 @@ export class RegisterOutput {
 
   @Expose()
   @ApiProperty()
-  businessRole: string;
-
-  @Expose()
-  @ApiProperty()
   isActive: boolean;
 
   @Expose()
   @ApiProperty()
   isEmailVerified: boolean;
-
-  @Expose()
-  @ApiProperty()
-  googleId: string;
-
-  @Expose()
-  @ApiProperty()
-  microsoftId: string;
-
-  @Expose()
-  @ApiProperty()
-  onboardStep: string;
 
   @Expose()
   @ApiProperty()
